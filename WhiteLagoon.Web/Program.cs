@@ -13,7 +13,7 @@ builder.Services.AddDbContext<AppDbContext>( o =>
 o.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")));
 
 
-builder.Services.AddScoped<IVillaRepository, VillaRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 

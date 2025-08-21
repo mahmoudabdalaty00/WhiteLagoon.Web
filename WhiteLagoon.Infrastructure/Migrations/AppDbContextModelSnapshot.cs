@@ -22,6 +22,75 @@ namespace WhiteLagoon.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("WhiteLagoon.Domain.Entities.Amenity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("VillaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VillaId");
+
+                    b.ToTable("Amenities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Enjoy a relaxing private pool",
+                            DisplayOrder = 0,
+                            Name = "Private Pool",
+                            VillaId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "High-speed internet included",
+                            DisplayOrder = 0,
+                            Name = "Free WiFi",
+                            VillaId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Cozy indoor fireplace",
+                            DisplayOrder = 0,
+                            Name = "Fireplace",
+                            VillaId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Relaxing outdoor hot tub",
+                            DisplayOrder = 0,
+                            Name = "Hot Tub",
+                            VillaId = 2
+                        });
+                });
+
             modelBuilder.Entity("WhiteLagoon.Domain.Entities.Villa", b =>
                 {
                     b.Property<int>("Id")
@@ -167,6 +236,17 @@ namespace WhiteLagoon.Infrastructure.Migrations
                             SpecialDetails = "Lake view private suite",
                             VillaId = 5
                         });
+                });
+
+            modelBuilder.Entity("WhiteLagoon.Domain.Entities.Amenity", b =>
+                {
+                    b.HasOne("WhiteLagoon.Domain.Entities.Villa", "Villa")
+                        .WithMany()
+                        .HasForeignKey("VillaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Villa");
                 });
 
             modelBuilder.Entity("WhiteLagoon.Domain.Entities.VillaNumber", b =>
