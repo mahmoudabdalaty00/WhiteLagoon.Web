@@ -1,17 +1,19 @@
 using Microsoft.EntityFrameworkCore;
+using WhiteLagoon.Application.common.interfaces;
 using WhiteLagoon.Infrastructure.Data;
+using WhiteLagoon.Infrastructure.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddSession();
 
 builder.Services.AddDbContext<AppDbContext>( o =>
 o.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")));
 
 
-
+builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 
 
 
@@ -33,7 +35,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthorization();
 
 app.MapStaticAssets();
