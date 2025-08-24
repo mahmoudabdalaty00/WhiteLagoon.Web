@@ -103,6 +103,13 @@ namespace WhiteLagoon.Web.Controllers
         [HttpPost]
         public IActionResult Update(AmenityVM villa)
         {
+            
+            
+            if (villa?.amenity?.Id == 0)
+            {
+                ModelState.AddModelError("", "Amenity Id is missing.");
+            }
+
             if (ModelState.IsValid)
             {
                 _unitOfWork.AmenityRepository.Update(villa.amenity);
@@ -137,7 +144,6 @@ namespace WhiteLagoon.Web.Controllers
             }
             return View(villa);
         }
-
 
         [HttpPost]
         public IActionResult Delete(Amenity villa)

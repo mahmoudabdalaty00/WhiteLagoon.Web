@@ -14,7 +14,21 @@ namespace WhiteLagoon.Infrastructure.Repository
 
         public void Update(Amenity amenity)
         {
-           _appDbContext.Amenities.Update(amenity);
+            var amenty = _appDbContext.Amenities.Find(amenity.Id);
+            if (amenty == null)
+            {
+                throw new KeyNotFoundException($"Amenity with Id {amenity.Id} not found.");
+            }
+            if (amenty != null)
+            {
+                amenty.Id = amenity.Id;
+                amenty.Description = amenity.Description;
+                amenty.Name = amenity.Name;
+                amenty.VillaId = amenity.VillaId;
+                amenty.DisplayOrder = amenity.DisplayOrder;
+                amenty.UpdatedDate = DateTime.UtcNow;
+             }
+            
         }
     }
 }

@@ -1,21 +1,29 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using WhiteLagoon.Application.common.interfaces;
 using WhiteLagoon.Web.Models;
+using WhiteLagoon.Web.ModelVM;
 
 namespace WhiteLagoon.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+         private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            return View();
+            HomeVM vm = new()
+            {
+                VillaList = _unitOfWork.VillaRepository.GetAll(includeProperties: "Amenities"),
+                Nights = 1,
+                CheckInDate = DateOnly.FromDateTime(DateTime.Now),      
+            };
+            return View(vm);
         }
 
         public IActionResult Privacy()

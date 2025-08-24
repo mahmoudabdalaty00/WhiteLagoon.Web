@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,6 +22,10 @@ namespace WhiteLagoon.Domain.Entities
 
         [DisplayName("Image Url")]
         public string? ImageUrl { get; set; }
+
+
+        [ValidateNever]
+        public IEnumerable<Amenity> Amenities { get; set; }
 
     }
 }
